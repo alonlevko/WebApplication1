@@ -18,5 +18,11 @@ namespace WebApplication1.Controllers
         {
             return View();
         }
+
+        [HttpGet]
+        public ActionResult DisplayRouth(string ip, int port, int seconds)
+        {
+            return View();
+        }
     }
 }
