@@ -1,0 +1,36 @@
+﻿
+@{
+    ViewBag.Title = "DisplayView";
+}
+
+<html>
+<head>
+    
+</head>
+<body sizes="100%">
+    <div>
+          <canvas id="gameCanvas" sizes="100%"></canvas>
+    </div>
+</body>
+</html>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+<script type="text/javascript">
+    $(function () {
+        var canvas = document.getElementById('gameCanvas');
+        var context = canvas.getContext('2d');
+        if (canvas.width != window.innerWidth) {
+            canvas.width = window.innerWidth;
+        }
+
+        if (canvas.height != window.innerHeight) {
+            canvas.height = window.innerHeight;
+        }
+        var img = new Image();   // Create new img element
+        img.addEventListener('load', function () {
+            context.drawImage(img, 0, 0, canvas.width, canvas.height);
+        }, false);
+        img.src = '/Content/export-map-share.png'; // Set source path
+        context.fillStyle = "rgba(156, 170, 193, 1)";
+        context.fillRect(10, 10, 70, 90); 
+    });
+</script>
