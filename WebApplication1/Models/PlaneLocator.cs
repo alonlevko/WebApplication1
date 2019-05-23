@@ -24,14 +24,19 @@ namespace WebApplication1.Models
                 using (BinaryWriter writer = new BinaryWriter(stream))
                 using(BinaryReader reader = new BinaryReader(stream))
                 {
-                    writer.Write(logtitude);
+                    string answer;
+                    writer.Write(Encoding.ASCII.GetBytes(logtitude));
                     // make sure the data gets to the server right now.
                     writer.Flush();
-                    result.longtitude = reader.ReadDouble();
-                    writer.Write(latitude);
+                    answer = reader.ReadLine();
+                    result.longtitude = getNum(answer);
+                    //result.longtitude = reader.ReadDouble();
+                    writer.Write(Encoding.ASCII.GetBytes(latitude));
                     // make sure the data gets to the server right now.
                     writer.Flush();
-                    result.lattitude = reader.ReadDouble();
+                    //result.lattitude = reader.ReadDouble();
+                    answer = reader.ReadLine();
+                    result.lattitude = getNum(answer);
                 }
                 // close the connection.
                 client.Close();
@@ -42,6 +47,16 @@ namespace WebApplication1.Models
                 result.longtitude = 0;
             }
             return result;
+        }
+        private double getNum(string str)
+        {
+            Regex regex = new Regex(@"-?\d+(?:\.\d+)?");
+            Match match = regex.Match(str);
+            if (match.Success)
+            {
+                return double.Parse(match.Value);
+            }
+            return 0;
         }
     }
 }

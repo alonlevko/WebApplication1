@@ -28,7 +28,7 @@ namespace WebApplication1
 
             routes.MapRoute(
                 name: "save",
-                url: "{controller}/{ip}/{port:int}/{perSeconds:int}/ {seconds:int}/ {fileName}",
+                url: "{controller}/{ip}/{port:int}/{perSeconds:int}/{seconds:int}/{fileName}",
                 defaults: new
                 {
                     controller = "Save",action = "Saver",ip = UrlParameter.Optional,port = UrlParameter.Optional,

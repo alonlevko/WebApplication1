@@ -19,5 +19,11 @@ namespace WebApplication1.Controllers
         {
             return View();
         }
+
+        [HttpGet]
+        public ActionResult Location(string ip, int port)
+        {
+
+        }
     }
 }
