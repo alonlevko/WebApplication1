@@ -15,6 +15,7 @@
 </html>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
 <script type="text/javascript">
+    
     $(function () {
         var canvas = document.getElementById('gameCanvas');
         var context = canvas.getContext('2d');
@@ -28,9 +29,16 @@
         var img = new Image();   // Create new img element
         img.addEventListener('load', function () {
             context.drawImage(img, 0, 0, canvas.width, canvas.height);
+            $.get("/Display/" + @ViewBag.ip + "/" + @ViewBag.port + "/" + "Location", function (data, status) {
+                var lattitude = data.lattitude * (canvas.height / 90);
+                var longtitude = data.longtitude * (canvas.width / 180);
+                context.fillStyle = "#DC143C";
+                //console.log("lattitude is " + lattitude + " longtitude is " + longtitude);
+                context.beginPath();
+                context.arc(longtitude, lattitude, 5, 0, 2 * Math.PI, true);
+                context.fill();
+            });
         }, false);
         img.src = '/Content/export-map-share.png'; // Set source path
-        context.fillStyle = "rgba(156, 170, 193, 1)";
-        context.fillRect(10, 10, 70, 90); 
     });
 </script>

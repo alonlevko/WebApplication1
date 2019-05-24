@@ -16,13 +16,26 @@ namespace WebApplication1.Controllers
         [HttpGet]
         public ActionResult Display(string ip, int port)
         {
+            ViewBag.ip = ip;
+            ViewBag.port = port;
             return View();
         }
 
         [HttpGet]
         public ActionResult DisplayRouth(string ip, int port, int seconds)
         {
-            return View();
+            ViewBag.ip = ip;
+            ViewBag.port = port;
+            ViewBag.seconds = seconds;
+            return View("~/Views/Display/DisplayRouth.cshtml");
+        }
+
+        [HttpGet]
+        public ActionResult Location(string ip, int port)
+        {
+            RandomLocator loc = new RandomLocator();
+            PlanePos p = loc.GetLocation();
+            return Json(p, JsonRequestBehavior.AllowGet);
         }
     }
 }

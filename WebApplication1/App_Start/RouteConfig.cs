@@ -15,24 +15,34 @@ namespace WebApplication1
 
             routes.MapRoute(
                 name: "display",
-                url: "{controller}/{ip}/{port:int}",
-                defaults: new { controller = "Display", action = "Display", ip = UrlParameter.Optional, port = UrlParameter.Optional }
+                url: "{controller}/{ip}/{port}",
+                defaults: new { controller = "Display", action = "Display", }
             );
 
             routes.MapRoute(
-                name: "display",
-                url: "{controller}/{ip}/{port:int}/{seconds:int}",
-                defaults: new { controller = "Display", action = "DisplayRouth", ip = UrlParameter.Optional, port = UrlParameter.Optional,
-                    seconds = UrlParameter.Optional }
-            );
-
-            routes.MapRoute(
-                name: "save",
-                url: "{controller}/{ip}/{port:int}/{perSeconds:int}/{seconds:int}/{fileName}",
+                name: "location",
+                url: "{controller}/{ip}/{port}/Location",
                 defaults: new
                 {
-                    controller = "Save",action = "Saver",ip = UrlParameter.Optional,port = UrlParameter.Optional,
-                    perSec = UrlParameter.Optional,seconds = UrlParameter.Optional,fileName = UrlParameter.Optional }
+                    controller = "Display",
+                    action = "Location",
+                }
+            );
+
+            routes.MapRoute(
+                name: "routh",
+                url: "{controller}/{ip}/{port}/{seconds}",
+                defaults: new { controller = "Display", action = "DisplayRouth" }
+            );
+            
+            routes.MapRoute(
+                name: "save",
+                url: "{controller}/{ip}/{port}/{perSeconds}/{seconds}/{fileName}",
+                defaults: new
+                {
+                    controller = "Save",
+                    action = "Saver"
+                }
             );
         }
     }

@@ -4,6 +4,8 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
+using System.Text;
+using System.Text.RegularExpressions;
 using System.Web;
 
 namespace WebApplication1.Models
@@ -22,7 +24,7 @@ namespace WebApplication1.Models
                 client.Connect(ep);
                 using (NetworkStream stream = client.GetStream())
                 using (BinaryWriter writer = new BinaryWriter(stream))
-                using(BinaryReader reader = new BinaryReader(stream))
+                using(StreamReader reader = new StreamReader(stream))
                 {
                     string answer;
                     writer.Write(Encoding.ASCII.GetBytes(logtitude));

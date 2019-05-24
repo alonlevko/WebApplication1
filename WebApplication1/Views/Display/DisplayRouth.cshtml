@@ -1,0 +1,51 @@
+﻿
+@{
+    ViewBag.Title = "DisplayRouth";
+}
+
+<body sizes="100%">
+    <div>
+        <canvas id="gameCanvas" sizes="100%"></canvas>
+    </div>
+</body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+<script type="text/javascript">
+    function sleep(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+    }
+
+    $(function () {
+        var canvas = document.getElementById('gameCanvas');
+        var context = canvas.getContext('2d');
+        if (canvas.width != window.innerWidth) {
+            canvas.width = window.innerWidth;
+        }
+
+        if (canvas.height != window.innerHeight) {
+            canvas.height = window.innerHeight;
+        }
+        var img = new Image();   // Create new img element
+        img.addEventListener('load', function () {
+            context.drawImage(img, 0, 0, canvas.width, canvas.height);
+            var oldLatitude;
+            var oldLongtitude;
+            var lattitude;
+            var longtitude;
+            window.setInterval(function () {
+                $.get("/Display/" + @ViewBag.ip + "/" + @ViewBag.port + "/" + "Location", function (data, status) {
+                    oldLongtitude = longtitude;
+                    oldLatitude = lattitude;
+                    lattitude = data.lattitude * (canvas.height / 90);
+                    longtitude = data.longtitude * (canvas.width / 180);
+                    context.strokeStyle = "#DC143C";
+                    context.beginPath();
+                    context.lineWidth = 3;
+                    context.moveTo(oldLongtitude, oldLatitude);
+                    context.lineTo(longtitude, lattitude);
+                    context.stroke();
+                });
+            }, 1000 / @ViewBag.seconds);
+        }, false);
+        img.src = '/Content/export-map-share.png'; // Set source path
+    });
+</script>
