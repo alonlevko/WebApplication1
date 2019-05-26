@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<ArrayOfPlanePos xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <PlanePos lattitude="28.634943058078616" longtitude="45.846996365975123" />
+  <PlanePos lattitude="83.2045123135692" longtitude="109.68478791866674" />
+  <PlanePos lattitude="47.774081569059796" longtitude="173.52257947135837" />
+  <PlanePos lattitude="12.343650824550377" longtitude="57.360371024049989" />
+  <PlanePos lattitude="66.913220080040958" longtitude="121.19816257674162" />
+  <PlanePos lattitude="31.482789335531553" longtitude="5.0359541294332386" />
+  <PlanePos lattitude="86.052358591022141" longtitude="68.873745682124863" />
+  <PlanePos lattitude="50.621927846512726" longtitude="132.71153723481649" />
+  <PlanePos lattitude="15.191497102003309" longtitude="16.549328787508106" />
+  <PlanePos lattitude="69.761066357493888" longtitude="80.387120340199729" />
+  <PlanePos lattitude="34.33063561298448" longtitude="144.22491189289136" />
+  <PlanePos lattitude="88.900204868475072" longtitude="28.062703445582979" />
+  <PlanePos lattitude="53.469774123965657" longtitude="91.90049499827461" />
+  <PlanePos lattitude="18.039343379456245" longtitude="155.73828655096622" />
+  <PlanePos lattitude="72.608912634946833" longtitude="39.576078103657849" />
+  <PlanePos lattitude="37.178481890437418" longtitude="103.41386965634948" />
+  <PlanePos lattitude="1.7480511459280044" longtitude="167.25166120904109" />
+  <PlanePos lattitude="88.610072833769991" longtitude="176.13507142110498" />
+  <PlanePos lattitude="53.179642089260575" longtitude="59.972862973796609" />
+  <PlanePos lattitude="17.749211344751163" longtitude="123.81065452648822" />
+  <PlanePos lattitude="72.318780600241737" longtitude="7.6484460791798519" />
+  <PlanePos lattitude="36.888349855732336" longtitude="71.486237631871475" />
+  <PlanePos lattitude="1.4579191112229226" longtitude="135.3240291845631" />
+  <PlanePos lattitude="56.027488366713506" longtitude="19.161820737254722" />
+  <PlanePos lattitude="20.597057622204098" longtitude="82.999612289946342" />
+  <PlanePos lattitude="75.166626877694682" longtitude="146.83740384263797" />
+  <PlanePos lattitude="39.736196133185267" longtitude="30.675195395329592" />
+  <PlanePos lattitude="4.305765388675856" longtitude="94.512986948021208" />
+  <PlanePos lattitude="58.875334644166436" longtitude="158.35077850071284" />
+  <PlanePos lattitude="23.444903899657028" longtitude="42.188570053404462" />
+  <PlanePos lattitude="78.014473155147613" longtitude="106.02636160609607" />
+  <PlanePos lattitude="42.584042410638204" longtitude="169.86415315878773" />
+  <PlanePos lattitude="7.15361166612879" longtitude="53.701944711479335" />
+  <PlanePos lattitude="61.723180921619381" longtitude="117.53973626417096" />
+  <PlanePos lattitude="26.292750177109962" longtitude="1.3775278168625793" />
+  <PlanePos lattitude="23.154771864951947" longtitude="10.260938028926466" />
+  <PlanePos lattitude="77.724341120442531" longtitude="74.098729581618088" />
+  <PlanePos lattitude="42.293910375933123" longtitude="137.93652113430971" />
+  <PlanePos lattitude="6.8634796314237079" longtitude="21.774312687001338" />
+  <PlanePos lattitude="61.4330488869143" longtitude="85.612104239692954" />
+</ArrayOfPlanePos>

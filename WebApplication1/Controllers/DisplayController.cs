@@ -2,8 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Net;
 using System.Web.Mvc;
 using WebApplication1.Models;
+using System.Xml;
+using System.Xml.Serialization;
+using System.IO;
 namespace WebApplication1.Controllers
 {
     public class DisplayController : Controller
@@ -16,9 +20,25 @@ namespace WebApplication1.Controllers
         [HttpGet]
         public ActionResult Display(string ip, int port)
         {
-            ViewBag.ip = ip;
-            ViewBag.port = port;
-            return View();
+            IPAddress address;
+            if (IPAddress.TryParse(ip, out address)) {
+                ViewBag.ip = ip;
+                ViewBag.port = port;
+                return View("~/Views/Display/Display.cshtml");
+            } else // we need to load a file
+            {
+                string fileName = ip;
+                XmlSerializer serializer = new XmlSerializer(typeof(List<PlanePos>));
+                var dir = Server.MapPath("~/");
+                var file = Path.Combine(dir, fileName + ".xml");
+                StreamReader reader = new StreamReader(file);
+                List<PlanePos> positions = (List<PlanePos>)serializer.Deserialize(reader);
+                ViewBag.positions = positions;
+                ViewBag.perSecond = port;
+                ViewBag.length = positions.Count;
+                return View("~/Views/Display/Animation.cshtml");
+            }
+            
         }
 
         [HttpGet]
@@ -33,8 +53,8 @@ namespace WebApplication1.Controllers
         [HttpGet]
         public ActionResult Location(string ip, int port)
         {
-            RandomLocator loc = new RandomLocator();
-            PlanePos p = loc.GetLocation();
+            PlaneLocator loc = new PlaneLocator();
+            PlanePos p = loc.GetPlanePosition(ip, port);
             return Json(p, JsonRequestBehavior.AllowGet);
         }
     }

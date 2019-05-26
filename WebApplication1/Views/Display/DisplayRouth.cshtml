@@ -32,17 +32,24 @@
             var lattitude;
             var longtitude;
             window.setInterval(function () {
-                $.get("/Display/" + @ViewBag.ip + "/" + @ViewBag.port + "/" + "Location", function (data, status) {
+                $.get("/Display/" + "@ViewBag.ip" + "/" + "@ViewBag.port" + "/" + "Location", function (data, status) {
                     oldLongtitude = longtitude;
                     oldLatitude = lattitude;
-                    lattitude = data.lattitude * (canvas.height / 90);
-                    longtitude = data.longtitude * (canvas.width / 180);
-                    context.strokeStyle = "#DC143C";
-                    context.beginPath();
-                    context.lineWidth = 3;
-                    context.moveTo(oldLongtitude, oldLatitude);
-                    context.lineTo(longtitude, lattitude);
-                    context.stroke();
+                    lattitude = (data.lattitude + 90) * (canvas.height / 180);
+                    longtitude = (data.longtitude + 180)* (canvas.width / 360);
+                    if (Math.abs(lattitude - oldLatitude) < 0.5 && Math.abs(longtitude - oldLongtitude) < 0.5) {
+                        context.fillStyle = "#DC143C";
+                        context.beginPath();
+                        context.arc(longtitude, lattitude, 5, 0, 2 * Math.PI, true);
+                        context.fill();
+                    } else {
+                        context.strokeStyle = "#DC143C";
+                        context.beginPath();
+                        context.lineWidth = 3;
+                        context.moveTo(oldLongtitude, oldLatitude);
+                        context.lineTo(longtitude, lattitude);
+                        context.stroke();
+                    }
                 });
             }, 1000 / @ViewBag.seconds);
         }, false);

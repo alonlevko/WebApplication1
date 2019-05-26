@@ -12,7 +12,7 @@ namespace WebApplication1.Models
 {
     public class PlaneLocator
     {
-        PlanePos GetPlanePosition(string ip, int port)
+        public PlanePos GetPlanePosition(string ip, int port)
         {
             string logtitude = "get /position/longitude-deg" + Environment.NewLine;
             string latitude = "get /position/latitude-deg" + Environment.NewLine;

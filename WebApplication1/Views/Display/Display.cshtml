@@ -29,9 +29,9 @@
         var img = new Image();   // Create new img element
         img.addEventListener('load', function () {
             context.drawImage(img, 0, 0, canvas.width, canvas.height);
-            $.get("/Display/" + @ViewBag.ip + "/" + @ViewBag.port + "/" + "Location", function (data, status) {
-                var lattitude = data.lattitude * (canvas.height / 90);
-                var longtitude = data.longtitude * (canvas.width / 180);
+            $.get("/Display/" + "@ViewBag.ip" + "/" + "@ViewBag.port" + "/" + "Location", function (data, status) {
+                var lattitude = (data.lattitude + 90) * (canvas.height / 180);
+                var longtitude = (data.longtitude + 180) * (canvas.width / 360);
                 context.fillStyle = "#DC143C";
                 //console.log("lattitude is " + lattitude + " longtitude is " + longtitude);
                 context.beginPath();

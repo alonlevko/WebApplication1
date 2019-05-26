@@ -20,21 +20,30 @@ namespace WebApplication1.Controllers
         }
 
         [HttpGet]
-        public ActionResult Saver(string ip, int port, int perSec, int seconds, string fileName)
+        public ActionResult Saver(string ip, int port, int perSeconds, int seconds, string fileName)
         {
-            RandomLocator locator = new RandomLocator();
-            LinkedList<PlanePos> list = new LinkedList<PlanePos>();
-            for(int i = 0; i < perSec * seconds; i++ )
+            new Thread(() =>
             {
-                PlanePos plane = locator.GetLocation();
-                list.AddLast(plane);
-                Thread.Sleep(1000/perSec);
-            }
-            XmlSerializer serializer = new XmlSerializer(typeof(LinkedList<PlanePos>), new Type[] { typeof(PlanePos) });
-            //TextWriter writer = new StreamWriter(fileName);
-            string str = fileName + ".xml";
-            FileStream stream = new FileStream(str, FileMode.Create, FileAccess.Write, FileShare.None);
-            serializer.Serialize(stream, list);
+                PlaneLocator locator = new PlaneLocator();
+                List<PlanePos> list = new List<PlanePos>();
+                for (int i = 0; i < perSeconds * seconds; i++)
+                {
+                    PlanePos plane = locator.GetPlanePosition(ip, port);
+                    list.Add(plane);
+                    Thread.Sleep(1000 / perSeconds);
+                }
+                XmlSerializer serializer = new XmlSerializer(typeof(List<PlanePos>), new Type[] { typeof(PlanePos) });
+                //TextWriter writer = new StreamWriter(fileName);
+                string str = fileName + ".xml";
+                var dir = Server.MapPath("~/");
+                var file = Path.Combine(dir, fileName + ".xml");
+                FileStream stream = new FileStream(file, FileMode.Create, FileAccess.Write, FileShare.None);
+                serializer.Serialize(stream, list);
+            }).Start();
+            ViewBag.seconds = seconds;
+            ViewBag.ip = ip;
+            ViewBag.port = port;
+            ViewBag.perseconds = perSeconds;
             return View("~/Views/Saver.cshtml");
         }
 

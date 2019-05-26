@@ -1,0 +1,76 @@
+﻿
+@{
+    ViewBag.Title = "Animation";
+}
+
+<body sizes="100%">
+    <div>
+        <canvas id="gameCanvas" sizes="100%"></canvas>
+    </div>
+</body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+<script type="text/javascript">
+
+    $(function () {
+        var canvas = document.getElementById('gameCanvas');
+        var context = canvas.getContext('2d');
+        if (canvas.width != window.innerWidth) {
+            canvas.width = window.innerWidth;
+        }
+
+        if (canvas.height != window.innerHeight) {
+            canvas.height = window.innerHeight;
+        }
+        var img = new Image();   // Create new img element
+        img.addEventListener('load', function () {
+            context.drawImage(img, 0, 0, canvas.width, canvas.height);
+            var index = 0;
+            var locations = @Html.Raw(Json.Encode(ViewBag.positions));
+            var oldLatitude;
+            var oldLongtitude;
+            var lattitude;
+            var longtitude;
+            var lash = window.setInterval(function () {
+                if (locations[index].lattitude == null) {
+                    oldLatitude = 0;
+                } else {
+                    oldLatitude = locations[index].lattitude * (canvas.height / 90);
+                }
+                if (locations[index].longtitude == null) {
+                    oldLongtitude = 0;
+                } else {
+                    oldLongtitude = locations[index].longtitude * (canvas.width / 180);
+                }
+                if (locations[index + 1].lattitude == null) {
+                    lattitude = 0;
+                } else {
+                    lattitude = locations[index + 1].lattitude * (canvas.height / 90);
+                }
+                if (locations[index + 1].longtitude == null) {
+                    longtitude = 0;
+                }
+                else {
+                    longtitude = locations[index + 1].longtitude * (canvas.width / 180);
+                }
+                if (Math.abs(lattitude - oldLatitude) < 0.5 && Math.abs(longtitude - oldLongtitude) < 0.5) {
+                    context.fillStyle = "#DC143C";
+                    context.beginPath();
+                    context.arc(longtitude, lattitude, 5, 0, 2 * Math.PI, true);
+                    context.fill();
+                } else {
+                    context.strokeStyle = "#DC143C";
+                    context.beginPath();
+                    context.lineWidth = 3;
+                    context.moveTo(oldLongtitude, oldLatitude);
+                    context.lineTo(longtitude, lattitude);
+                    context.stroke();
+                }
+                index++;
+                if (index >= @ViewBag.length - 1) {
+                    clearInterval(lash);
+                }
+            }, 1000 / @ViewBag.perSecond);
+        }, false);
+        img.src = '/Content/export-map-share.png'; // Set source path
+    });
+</script>
