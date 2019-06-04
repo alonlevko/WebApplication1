@@ -7,6 +7,7 @@ namespace WebApplication1.Models
 {
     public class RandomLocator
     {
+        // used only for testing
         public PlanePos GetLocation()
         {
             PlanePos plane = new PlanePos();

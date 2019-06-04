@@ -14,6 +14,7 @@
     $(function () {
         var canvas = document.getElementById('gameCanvas');
         var context = canvas.getContext('2d');
+        // set the canvas size to the screen size
         if (canvas.width != window.innerWidth) {
             canvas.width = window.innerWidth;
         }
@@ -22,15 +23,20 @@
             canvas.height = window.innerHeight;
         }
         var img = new Image();   // Create new img element
+        // paint the planes routh only when the image loads
         img.addEventListener('load', function () {
             context.drawImage(img, 0, 0, canvas.width, canvas.height);
             var index = 0;
+            // save the flight loactions from the file
             var locations = @Html.Raw(Json.Encode(ViewBag.positions));
             var oldLatitude;
             var oldLongtitude;
             var lattitude;
             var longtitude;
+            // set an interval to show the data
             var lash = window.setInterval(function () {
+                // if an element is null set it to 0
+                // else normalize it
                 if (locations[index].lattitude == null) {
                     oldLatitude = 0;
                 } else {
@@ -52,12 +58,13 @@
                 else {
                     longtitude = locations[index + 1].longtitude * (canvas.width / 180);
                 }
-                if (Math.abs(lattitude - oldLatitude) < 0.5 && Math.abs(longtitude - oldLongtitude) < 0.5) {
+                // if the change is to small draw a dot
+                if (Math.abs(lattitude - oldLatitude) < 0.1 && Math.abs(longtitude - oldLongtitude) < 0.1) {
                     context.fillStyle = "#DC143C";
                     context.beginPath();
                     context.arc(longtitude, lattitude, 5, 0, 2 * Math.PI, true);
                     context.fill();
-                } else {
+                } else { // the change is big so we draw a line
                     context.strokeStyle = "#DC143C";
                     context.beginPath();
                     context.lineWidth = 3;
@@ -66,11 +73,12 @@
                     context.stroke();
                 }
                 index++;
+                // if we ended the data stop running
                 if (index >= @ViewBag.length - 1) {
                     clearInterval(lash);
                 }
             }, 1000 / @ViewBag.perSecond);
         }, false);
-        img.src = '/Content/export-map-share.png'; // Set source path
+        img.src = '/export-map-share.png'; // Set source path
     });
 </script>

@@ -14,8 +14,11 @@ namespace WebApplication1.Models
     {
         public PlanePos GetPlanePosition(string ip, int port)
         {
+            // the string we need to send to the simulator to get the values
             string logtitude = "get /position/longitude-deg" + Environment.NewLine;
             string latitude = "get /position/latitude-deg" + Environment.NewLine;
+            string rudder = "get /controls/flight/rudder" + Environment.NewLine;
+            string throttle = "get /controls/engines/current-engine/throttle" + Environment.NewLine;
             PlanePos result = new PlanePos();
             try
             {
@@ -26,19 +29,26 @@ namespace WebApplication1.Models
                 using (BinaryWriter writer = new BinaryWriter(stream))
                 using(StreamReader reader = new StreamReader(stream))
                 {
+                    // read the values we need from the simulator
                     string answer;
                     writer.Write(Encoding.ASCII.GetBytes(logtitude));
                     // make sure the data gets to the server right now.
                     writer.Flush();
                     answer = reader.ReadLine();
                     result.longtitude = getNum(answer);
-                    //result.longtitude = reader.ReadDouble();
                     writer.Write(Encoding.ASCII.GetBytes(latitude));
                     // make sure the data gets to the server right now.
                     writer.Flush();
-                    //result.lattitude = reader.ReadDouble();
                     answer = reader.ReadLine();
                     result.lattitude = getNum(answer);
+                    writer.Write(Encoding.ASCII.GetBytes(rudder));
+                    writer.Flush();
+                    answer = reader.ReadLine();
+                    result.rudder = getNum(answer);
+                    writer.Write(Encoding.ASCII.GetBytes(throttle));
+                    writer.Flush();
+                    answer = reader.ReadLine();
+                    result.throttle = getNum(throttle);
                 }
                 // close the connection.
                 client.Close();
@@ -48,8 +58,10 @@ namespace WebApplication1.Models
                 result.lattitude = 0;
                 result.longtitude = 0;
             }
+            // return the plane position with the parameters
             return result;
         }
+        // used to extract the number from the return string
         private double getNum(string str)
         {
             Regex regex = new Regex(@"-?\d+(?:\.\d+)?");

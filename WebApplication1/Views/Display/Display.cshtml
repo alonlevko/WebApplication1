@@ -19,6 +19,7 @@
     $(function () {
         var canvas = document.getElementById('gameCanvas');
         var context = canvas.getContext('2d');
+        // set the width and height of the canvas to be the same as the screens
         if (canvas.width != window.innerWidth) {
             canvas.width = window.innerWidth;
         }
@@ -27,18 +28,21 @@
             canvas.height = window.innerHeight;
         }
         var img = new Image();   // Create new img element
+        // draw the dot when the image loads
         img.addEventListener('load', function () {
             context.drawImage(img, 0, 0, canvas.width, canvas.height);
+            // get the location of the plane
             $.get("/Display/" + "@ViewBag.ip" + "/" + "@ViewBag.port" + "/" + "Location", function (data, status) {
+                // normalize the location of the plane
                 var lattitude = (data.lattitude + 90) * (canvas.height / 180);
                 var longtitude = (data.longtitude + 180) * (canvas.width / 360);
+                // draw the dot on the canvas
                 context.fillStyle = "#DC143C";
-                //console.log("lattitude is " + lattitude + " longtitude is " + longtitude);
                 context.beginPath();
                 context.arc(longtitude, lattitude, 5, 0, 2 * Math.PI, true);
                 context.fill();
             });
         }, false);
-        img.src = '/Content/export-map-share.png'; // Set source path
+        img.src = '/export-map-share.png'; // Set source path
     });
 </script>

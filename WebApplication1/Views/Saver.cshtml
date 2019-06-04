@@ -10,13 +10,12 @@
 </body>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
 <script type="text/javascript">
-    function sleep(ms) {
-        return new Promise(resolve => setTimeout(resolve, ms));
-    }
 
     $(function () {
+        // extract the canvas
         var canvas = document.getElementById('gameCanvas');
         var context = canvas.getContext('2d');
+        // set the size of the canvas
         if (canvas.width != window.innerWidth) {
             canvas.width = window.innerWidth;
         }
@@ -25,6 +24,7 @@
             canvas.height = window.innerHeight;
         }
         var img = new Image();   // Create new img element
+        // do the stuff only when the image loads
         img.addEventListener('load', function () {
             context.drawImage(img, 0, 0, canvas.width, canvas.height);
             var oldLatitude;
@@ -32,18 +32,22 @@
             var lattitude;
             var longtitude;
             var index = 0;
+            // go for the interval
             var inter = window.setInterval(function () {
+                // get the flight data and do things when it loads
                 $.get("/Display/" + "@ViewBag.ip" + "/" + "@ViewBag.port" + "/" + "Location", function (data, status) {
                     oldLongtitude = longtitude;
                     oldLatitude = lattitude;
+                    // normalize data for the size of the screen
                     lattitude = (data.lattitude + 90) * (canvas.height / 180);
-                    longtitude = (data.longtitude + 180)* (canvas.width / 360);
-                    if (Math.abs(lattitude - oldLatitude) < 0.5 && Math.abs(longtitude - oldLongtitude) < 0.5) {
+                    longtitude = (data.longtitude + 180) * (canvas.width / 360);
+                    // if the change is to small paint a dot
+                    if (Math.abs(lattitude - oldLatitude) < 0.1 && Math.abs(longtitude - oldLongtitude) < 0.1) {
                         context.fillStyle = "#DC143C";
                         context.beginPath();
                         context.arc(longtitude, lattitude, 5, 0, 2 * Math.PI, true);
                         context.fill();
-                    } else {
+                    } else { // else paint a line on the canvas
                         context.strokeStyle = "#DC143C";
                         context.beginPath();
                         context.lineWidth = 3;
@@ -51,6 +55,7 @@
                         context.lineTo(longtitude, lattitude);
                         context.stroke();
                     }
+                    // when times up end the running
                     if (index > @ViewBag.seconds * @ViewBag.perseconds) {
                         clearInterval(inter);
                     }
@@ -58,7 +63,7 @@
                 });
             }, 1000 / @ViewBag.perseconds);
         }, false);
-        img.src = '/Content/export-map-share.png'; // Set source path
+        img.src = '/export-map-share.png'; // Set source path
     });
 </script>
 

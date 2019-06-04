@@ -15,5 +15,9 @@ namespace WebApplication1.Models
         public double lattitude;
         [XmlAttribute]
         public double longtitude;
+        [XmlAttribute]
+        public double rudder;
+        [XmlAttribute]
+        public double throttle;
     }
 }

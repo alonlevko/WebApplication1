@@ -10,13 +10,11 @@
 </body>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
 <script type="text/javascript">
-    function sleep(ms) {
-        return new Promise(resolve => setTimeout(resolve, ms));
-    }
 
     $(function () {
         var canvas = document.getElementById('gameCanvas');
         var context = canvas.getContext('2d');
+        // set the canvas to the right size
         if (canvas.width != window.innerWidth) {
             canvas.width = window.innerWidth;
         }
@@ -25,24 +23,29 @@
             canvas.height = window.innerHeight;
         }
         var img = new Image();   // Create new img element
+        // do the drawing only when the image had finished loadng
         img.addEventListener('load', function () {
             context.drawImage(img, 0, 0, canvas.width, canvas.height);
             var oldLatitude;
             var oldLongtitude;
             var lattitude;
             var longtitude;
+            // set an interval for showing the flight data
             window.setInterval(function () {
+                // get the plane position and draw when we get it
                 $.get("/Display/" + "@ViewBag.ip" + "/" + "@ViewBag.port" + "/" + "Location", function (data, status) {
                     oldLongtitude = longtitude;
                     oldLatitude = lattitude;
+                    // normalize the plane position
                     lattitude = (data.lattitude + 90) * (canvas.height / 180);
-                    longtitude = (data.longtitude + 180)* (canvas.width / 360);
-                    if (Math.abs(lattitude - oldLatitude) < 0.5 && Math.abs(longtitude - oldLongtitude) < 0.5) {
+                    longtitude = (data.longtitude + 180) * (canvas.width / 360);
+                    // if the point are to close just draw a dot
+                    if (Math.abs(lattitude - oldLatitude) < 0.1 && Math.abs(longtitude - oldLongtitude) < 0.1) {
                         context.fillStyle = "#DC143C";
                         context.beginPath();
                         context.arc(longtitude, lattitude, 5, 0, 2 * Math.PI, true);
                         context.fill();
-                    } else {
+                    } else { // the points are far enough a part so we want to draw a line
                         context.strokeStyle = "#DC143C";
                         context.beginPath();
                         context.lineWidth = 3;
@@ -53,6 +56,6 @@
                 });
             }, 1000 / @ViewBag.seconds);
         }, false);
-        img.src = '/Content/export-map-share.png'; // Set source path
+        img.src = '/export-map-share.png'; // Set source path
     });
 </script>
